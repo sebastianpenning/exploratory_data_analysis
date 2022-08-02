@@ -155,6 +155,41 @@ df_comst
 |MT	|2200414|	759.16|
 |WV|	17542|	2044.57|
 
+Now we will look at which vendors are most succesfull versus least. 
+
+```python
+df_ven = df.groupby('VENDOR_CODE').sum().reset_index()
+
+ven_high = df_ven.query ('REVENUE > 30000000')
+ven_low = df_ven.query ('REVENUE < 90')
+
+ven_high.plot.bar(x = 'VENDOR_CODE', y = 'REVENUE')
+plot.show(block=True)
+ven_low.plot.bar(x = 'VENDOR_CODE', y = 'REVENUE')
+plot.show(block=True)
+```
+
+Best: 
+
+![ven_high](https://user-images.githubusercontent.com/88779306/182332279-ac74b07e-62c7-4887-84dd-f13ef7f4e994.png)
+
+Worst:
+
+![ven_low](https://user-images.githubusercontent.com/88779306/182332319-92104496-c7c1-49b1-bb34-b05ba4958786.png)
+
+Finally, we'll look at the overall evolution of all sales
+
+```python
+df['AWARD_DATE'] = pd.to_datetime(df['AWARD_DATE'])
+df_time = df.groupby(pd.Grouper(key='AWARD_DATE', axis = 0, freq='M')).sum().reset_index()
+df_time.plot(x = 'AWARD_DATE', y = 'REVENUE')
+plot.show(block=True)
+```
+
+Sales evolution:
+
+![sales_evolution](https://user-images.githubusercontent.com/88779306/182332605-24cfeb00-345b-4560-954a-9adce23ce17c.png)
+
 
 
 	
